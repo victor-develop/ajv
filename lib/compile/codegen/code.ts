@@ -60,8 +60,10 @@ export class _Code extends _CodeOrName {
   }
 }
 
+// looks like a token
 export type CodeItem = Name | string | number | boolean | null
 
+// looks like a kv pairs of token name and referenced counts
 export type UsedNames = Record<string, number | undefined>
 
 export type Code = _Code | Name
