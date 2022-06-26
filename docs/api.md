@@ -46,7 +46,7 @@ if (validate(data)) {
 }
 ```
 
-See more advanced example in [the test](../spec/types/json-schema.spec.ts).
+See more advanced example in [the test](https://github.com/ajv-validator/ajv/blob/master/spec/types/json-schema.spec.ts).
 
 <a name="jtd-serialize"></a>
 
@@ -64,7 +64,7 @@ If you use JTD with typescript, the type for the schema can be derived from the 
 import Ajv, {JTDSchemaType} from "ajv/dist/jtd"
 const ajv = new Ajv()
 
-interface MyData = {
+interface MyData {
   foo: number
   bar?: string
 }
@@ -331,7 +331,7 @@ In case of validation failure, Ajv assigns the array of errors to `errors` prope
 
 ### Error objects
 
-Each error reported when validating against JSON Schema (also when validating against JTD schema with option `ajvErrors`) is an object with the following properties:
+Each reported error is an object with the following properties:
 
 ```typescript
 interface ErrorObject {
@@ -385,7 +385,7 @@ if (validate(data)) {
 }
 ```
 
-Also see an example in [this test](../spec/types/error-parameters.spec.ts)
+Also see an example in [this test](https://github.com/ajv-validator/ajv/blob/master/spec/types/error-parameters.spec.ts)
 
 - `maxItems`, `minItems`, `maxLength`, `minLength`, `maxProperties`, `minProperties`:
 

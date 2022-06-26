@@ -91,7 +91,7 @@ Ajv supports all keywords of JSON Schema draft-2020-12:
 - changed [items](#items-in-draft-2020-12) keyword that combined parts of functionality of items and additionalItems
 - [$dynamicAnchor/$dynamicRef](./guide/combining-schemas.md#extending-recursive-schemas)
 
-To use draft-2019-09 schemas you need to import a different Ajv class:
+To use draft-2020-12 schemas you need to import a different Ajv class:
 
 <code-group>
 <code-block title="JavaScript">
@@ -135,40 +135,29 @@ ajv.addMetaSchema(draft6MetaSchema)
 </code-block>
 </code-group>
 
-### draft-04 <Badge text="v6" />
+### draft-04
 
-You can use JSON Schema draft-06 schemas with Ajv v6.
-
-::: warning Only compatible with Ajv v6
-The code example below will not work in the most recent version of Ajv, it requires Ajv v6. While no longer actively developed it continues to receive critical security updates.
-:::
+You can use JSON Schema draft-04 schemas with Ajv from v8.5.0 and the additional package [ajv-draft-04](https://github.com/ajv-validator/ajv-draft-04) (both ajv and ajv-draft-04 should be installed).
 
 <code-group>
 <code-block title="JavaScript">
 ```javascript
-const Ajv = require("ajv")
-const draft4MetaSchema = require("ajv/lib/refs/json-schema-draft-04.json")
-
-const ajv = new Ajv({schemaId: "id"}) // or "auto" if you use both draft-04 and draft-06/07 schemas
-ajv.addMetaSchema(draft4MetaSchema)
+const Ajv = require("ajv-draft-04")
+const ajv = new Ajv()
 ```
 </code-block>
 
 <code-block title="TypeScript">
 ```typescript
-import Ajv from "ajv"
-import * as draft4MetaSchema from "ajv/lib/refs/json-schema-draft-04.json"
-
-const ajv = new Ajv({schemaId: "id"}) // or "auto" if you use both draft-04 and draft-06/07 schemas
-ajv.addMetaSchema(draft4MetaSchema)
+import Ajv from "ajv-draft-04"
+const ajv = new Ajv()
 ```
 </code-block>
 </code-group>
 
-var ajv = new Ajv({schemaId: 'id'});
-// If you want to use both draft-04 and draft-06/07 schemas:
-// var ajv = new Ajv({schemaId: 'auto'});
-ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
+::: warning Ajv cannot combine multiple JSON Schema versions
+You can only use this import with JSON Schema draft-04, you cannot combine multiple JSON Schema versions in this ajv instance.
+:::
 
 ## OpenAPI support
 
@@ -301,7 +290,7 @@ The value of the keywords should be a number. The data to be valid should have l
 
     _invalid_: `"abcdef"`
 
-2)  _schema_: `{type: "string", minLength": 2}`
+2)  _schema_: `{type: "string", minLength: 2}`
 
     _valid_: `"ab"`, `"😀😀"`
 
@@ -462,26 +451,20 @@ For the data array to be valid, the items with indices less than the number of s
 
 **Examples**
 
-1.  _schema_: `{type: "array", prefixItems: {type: "integer"}}`
+_schema_:
 
-    _valid_: `[1,2,3]`, `[]`
+```javascript
+{
+  type: "array",
+  prefixItems: [{type: "integer"}, {type: "string"}]
+}
+```
 
-    _invalid_: `[1,"abc"]`
+_valid_: `[1]`, `[1, "abc"]`, `[1, "abc", 2]`, `[]`
 
-2.  _schema_:
+_invalid_: `["abc", 1]`, `["abc"]`
 
-    ```javascript
-    {
-      type: "array",
-      prefixItems: [{type: "integer"}, {type: "string"}]
-    }
-    ```
-
-    _valid_: `[1]`, `[1, "abc"]`, `[1, "abc", 2]`, `[]`
-
-    _invalid_: `["abc", 1]`, `["abc"]`
-
-The schema in example 2 will log warning by default (see `strictTuples` option), because it defines unconstrained tuple. To define a tuple with exactly 2 elements use [minItems](#minitems) and [items](#items-in-draft-2020-12) keywords (see example 2 in [items](#items-in-draft-2020-12)).
+The schema in example will log warning by default (see `strictTuples` option), because it defines unconstrained tuple. To define a tuple with exactly 2 elements use [minItems](#minitems) and [items](#items-in-draft-2020-12) keywords (see example 2 in [items](#items-in-draft-2020-12)).
 
 ### `additionalItems`
 
@@ -1008,8 +991,8 @@ From the perspective of validation result `discriminator` is defined as no-op (t
 There are following requirements and limitations of using `discriminator` keyword:
 - `mapping` in discriminator object is not supported.
 - [oneOf](#oneof) keyword must be present in the same schema.
-- discriminator property should be [requried](#required) either on the top level, as in the example, or in all `oneOf` subschemas.
-- each `oneOf` subschema must have [properties](#properties) keyword with discriminator property.
+- discriminator property should be [required](#required) either on the top level, as in the example, or in all `oneOf` subschemas.
+- each `oneOf` subschema must have [properties](#properties) keyword with discriminator property. The subschemas should be either inlined or included as direct references (only `$ref` keyword without any extra keywords is allowed). 
 - schema for discriminator property in each `oneOf` subschema must be [const](#const) or [enum](#enum), with unique values across all subschemas.
 
 Not meeting any of these requirements would fail schema compilation.
@@ -1177,7 +1160,7 @@ If the data is invalid against the sub-schema in `if` keyword, then the validati
       then: {multipleOf: 100},
       else: {
         if: {minimum: 10},
-        then": {multipleOf: 10}
+        then: {multipleOf: 10}
       }
     }
     ```

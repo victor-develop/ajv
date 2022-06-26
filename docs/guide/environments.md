@@ -77,6 +77,10 @@ The browser bundles are available on [cdnjs](https://cdnjs.com/libraries/ajv).
 Some frameworks, e.g. Dojo, may redefine global require in a way that is not compatible with CommonJS module format. In this case Ajv bundle has to be loaded before the framework and then you can use global `ajv` (see issue [#234](https://github.com/ajv-validator/ajv/issues/234)).
 :::
 
+::: warning Internet Explorer 11
+Ajv v8 in IE 11 will not work straight out of the box. To use it either [recompile it](../standalone.md), or set the options [unicodeRegExp](../options.md#unicoderegexp) to `false` and `code: { es5: true }`, and transpile the Ajv node module (see issue [#1585](https://github.com/ajv-validator/ajv/issues/1585#issuecomment-832486204)).
+:::
+
 ## ES5 environments
 
 You need to:
@@ -89,6 +93,15 @@ const ajv = new Ajv({code: {es5: true}})
 ```
 
 See [Advanced options](https://github.com/ajv-validator/ajv/blob/master/docs/api.md#advanced-options).
+
+## CJS vs ESM exports
+
+The default configuration of AJV is to generate code in ES6 with Common JS (CJS) exports. This can be changed by setting 
+the ES Modules(ESM) flag.
+
+```javascript
+const ajv = new Ajv({code: {esm: true}})
+```
 
 ## Other JavaScript environments
 

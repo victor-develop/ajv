@@ -45,7 +45,7 @@ It has a required member `type` and an optional members `nullable` and `metadata
 
 - `"string"` - defines a string
 - `"boolean"` - defines boolean value `true` or `false`
-- `"timestamp"` - defines timestamp (JSON string, Ajv would also allow Date object with this type) according to [RFC3339](https://datatracker.ietf.org/doc/rfc3339/)
+- `"timestamp"` - defines timestamp ( accepting either an [RFC3339](https://datatracker.ietf.org/doc/rfc3339/) JSON string or a Date object, configurable via the `timestamp` Ajv option)
 - `type` values that define integer numbers:
   - `"int8"` - signed byte value (-128 .. 127)
   - `"uint8"` - unsigned byte value (0 .. 255)
@@ -170,11 +170,11 @@ Invalid data: `{}`, `{foo: 1}`, `{foo: "bar", bar: "3"}`, any type other than ob
 
 This form defines discriminated (tagged) union of different record types.
 
-It has required members `discriminator` and `mappings` and optional members `nullable` and `metadata`, no other members are allowed.
+It has required members `discriminator` and `mapping` and optional members `nullable` and `metadata`, no other members are allowed.
 
-The string value of `discriminator` schema member contains the name of the data member that is the tag of the union. `mappings` schema member contains the dictionary of schemas that are applied according to the value of the tag member in the data. Schemas inside `mappings` must have "properties" form.
+The string value of `discriminator` schema member contains the name of the data member that is the tag of the union. `mapping` schema member contains the dictionary of schemas that are applied according to the value of the tag member in the data. Schemas inside `mapping` must have "properties" form.
 
-Properties forms inside `mappings` cannot be `nullable` and cannot define the same property as discriminator tag.
+Properties forms inside `mapping` cannot be `nullable` and cannot define the same property as discriminator tag.
 
 **Example 1.**
 
@@ -183,7 +183,7 @@ Schema:
 ```javascript
 {
   discriminator: "version",
-  mappings: {
+  mapping: {
     "1": {
       properties: {
         foo: {type: "string"}
@@ -202,12 +202,12 @@ Valid data: `{version: "1", foo: "1"}`, `{version: "2", foo: 1}`
 
 Invalid data: `{}`, `{foo: "1"}`, `{version: 1, foo: "1"}`, any type other than object
 
-**Example 3: invalid schema (discriminator tag member defined in mappings)**
+**Example 3: invalid schema (discriminator tag member defined in mapping)**
 
 ```javascript
 {
   discriminator: "version",
-  mappings: {
+  mapping: {
     "1": {
       properties: {
         version: {enum: ["1"]},
@@ -376,7 +376,7 @@ const schema: JTDSchemaType<LinkedList, {node: LinkedList}> = {
 
 ### Notable Omissions
 
-`JTDSchemaType` currently validats that if the schema compiles it will verify an accurate type, but there are a few places with potentially unexpected behavior.
+`JTDSchemaType` currently validates that if the schema compiles it will verify an accurate type, but there are a few places with potentially unexpected behavior.
 `JTDSchemaType` doesn't verify the schema is correct. It won't reject schemas that definitions anywhere by the root, and it won't reject discriminator schemas that still define the descriminator in mapping properties. It also won't verify that enum schemas have every enum member as this isn't generally feasible in typescript yet.
 
 ## Extending JTD

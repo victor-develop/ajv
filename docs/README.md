@@ -34,14 +34,32 @@ Use JSON Type Definition or JSON Schema
 </Feature>
 </Features>
 
-<Sponsors>
+<Sponsors level="platinum">
 
-Platinum sponsors
+## Ajv sponsors
 
 [![mozilla](/img/mozilla.svg)](https://www.mozilla.org)
 [![reserved](/img/reserved.svg)](https://opencollective.com/ajv)
 
 </Sponsors>
+
+<Sponsors level="gold">
+
+[![microsoft](/img/microsoft.png)](https://opensource.microsoft.com)
+[![reserved](/img/reserved.svg)](https://opencollective.com/ajv)
+[![reserved](/img/reserved.svg)](https://opencollective.com/ajv)
+
+</Sponsors>
+
+<Sponsors level="bronze">
+
+[![Retool](/img/retool.svg)](https://retool.com/?utm_source=sponsor&utm_campaign=ajv)
+[![Tidelift](/img/tidelift.svg)](https://tidelift.com/subscription/pkg/npm-ajv?utm_source=npm-ajv&utm_medium=referral&utm_campaign=enterprise)
+[![SimpleX](/img/simplex.svg)](https://github.com/simplex-chat/simplex-chat)
+[![reserved](/img/reserved.svg)](https://opencollective.com/ajv)
+
+</Sponsors>
+
 </HeroSection>
 
 <HomeSection>
@@ -117,9 +135,9 @@ if (!valid) console.log(ajv.errors)
 <Testimonials>
 <Testimonial color="green">
 
-Built-in data validation is a key feature of any web framework. We decided to leverage JSON Schema in [Fastify](https://www.fastify.io), and Ajv fits our needs wonderfully: it’s fast, stable and well maintained.
+Ajv stands out as the implementation of choice - it provides a rich API which many thousands of people use in production... Ajv is partly responsible for the success of JSON Schema.
 
-[Matteo Collina](https://github.com/mcollina), tech director [@nearform](https://github.com/nearform) and TSC member
+[Ben Hutton](https://github.com/relequestual), JSON Schema Specification Lead
 
 </Testimonial>
 
@@ -132,7 +150,7 @@ Built-in data validation is a key feature of any web framework. We decided to le
 </Testimonial>
 </Testimonials>
 
-<span style="float:right;">[All testimonials](./testimonials.md)</span>
+<span style="float:right;">[All quotes](./testimonials.md)</span>
 
 </HomeSection>
 
@@ -187,6 +205,7 @@ Built-in data validation is a key feature of any web framework. We decided to le
 [Vega-Lite](https://vega.github.io/vega-lite/)
 [![middy](./projects/middy.png)](https://middy.js.org)
 [JSDoc](https://github.com/jsdoc/jsdoc)
+[![Ts.ED](./projects/tsed.png)](https://tsed.io)
 
 </Projects>
 </HomeSection>
@@ -211,7 +230,7 @@ Ajv is free to use and open-source that many developers contributed to. Join us!
 
 <FooterColumn type="links">
 
-[Learn Ajv](./docs/getting-started.md)
+[Learn Ajv](./guide/getting-started.md)
 
 [Reference](./api.md)
 
@@ -225,7 +244,7 @@ Ajv is free to use and open-source that many developers contributed to. Join us!
 
 [JSON Type Definition](./json-type-definition.md)
 
-[Contributing](./contributing.html)
+[Contributing](./contributing.md)
 
 </FooterColumn>
 
